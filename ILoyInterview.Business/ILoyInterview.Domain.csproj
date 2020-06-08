@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ILoyInterview.Contracts\ILoyInterview.Contracts.csproj" />
+    <ProjectReference Include="..\ILoyInterview.Data\ILoyInterview.Data.csproj" />
+  </ItemGroup>
+
+</Project>

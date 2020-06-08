@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+	<div id="project-post-result"></div>
+	<div id="project-put-result"></div>
+	<div id="project-get-result"></div>
+	<div id="project-delete-result"></div>
+
+	<div id="project-task-post-result"></div>
+	<div id="project-task-put-result"></div>
+	<div id="project-task-get-result"></div>
+	<div id="project-task-delete-result"></div>
+
+	<a href="/api/projectTask/report/2020-05-05" target="_blank">Download report for 05/05/2020</a>
+
+	<script>
+		$(document).ready(function () {
+			var url = '/api/';
+			var projectId;
+
+			$.post(url + 'project', {
+				name: 'Test Proj',
+				code: 'TP',
+				startDate: '05/05/2020',
+				finishDate: '05/09/2020'
+			})
+				.done(function (response1) {
+					$('#project-post-result').text(JSON.stringify(response1));
+
+					$.ajax({
+						url: url + 'project/' + response1.data,
+						type: 'PUT',
+						data: {
+							id: response1.data,
+							name: 'Test Proj',
+							code: 'TP',
+							startDate: '05/05/2020',
+							finishDate: '05/05/2020'
+						},
+						success: function (response2) {
+							$('#project-put-result').text(JSON.stringify(response2));
+
+							$.get(url + 'project/' + response1.data)
+								.done(function (response3) {
+									$('#project-get-result').text(JSON.stringify(response3));
+
+									$.post(url + 'projectTask', {
+										projectId: response1.data,
+										name: 'Test Task',
+										description: 'TT',
+										state: 2,
+										startDate: '05/05/2020',
+										finishDate: '05/08/2020'
+									})
+										.done(function (response4) {
+											$('#project-task-post-result').text(JSON.stringify(response4));
+
+											$.ajax({
+												url: url + 'projectTask/' + response4.data,
+												type: 'PUT',
+												data: {
+													projectId: response1.data,
+													name: 'Test Task',
+													description: 'TT',
+													state: 3,
+													startDate: '05/05/2020',
+													finishDate: '05/08/2020'
+												},
+												success: function (response5) {
+													$('#project-task-put-result').text(JSON.stringify(response5));
+
+													$.get(url + 'projectTask/' + response4.data)
+														.done(function (response6) {
+															$('#project-task-get-result').text(JSON.stringify(response6));
+
+															$.ajax({
+																url: url + 'project/' + response1.data,
+																type: 'DELETE',
+																success: function (response7) {
+																	$('#project-delete-result').text(JSON.stringify(response7));
+																}
+															});
+														});
+												}
+											});
+										});
+
+								});
+						}
+					});
+				});
+		});
+	</script>
+</body>
+
+</html>

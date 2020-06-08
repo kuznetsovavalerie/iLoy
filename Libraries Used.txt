@@ -1,0 +1,6 @@
+External libriries used:
+
+Entity Framework Core - to accelerate db development
+OpenXML - for excel files generation
+xunit - for testing
+Newtonsoft.Json - to serialize json
